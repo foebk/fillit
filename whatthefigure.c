@@ -14,6 +14,11 @@
 #include <fcntl.h>
 #include "libft.h"
 
+// int whatthefigure(char **buf)
+// {
+// 	printf("%d\n", ft_strnchr(*buf, ));
+// }
+
 int validation(int fd, char **buf, int ret)
 {
 	int i;
@@ -54,6 +59,7 @@ int main()
 		if (validation(fd, &buf, ret) == 0)
 			return (0);
 		printf("%s", buf);
-		ft_strclr(buf);
-		}
+		// whatthefigure(&buf);
 	}
+	free(buf);
+}

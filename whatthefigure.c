@@ -14,30 +14,46 @@
 #include <fcntl.h>
 #include "libft.h"
 
-int validation(int fd)
+int validation(int fd, char **buf, int ret)
 {
-	int ret;
-	char buf[21];
 	int i;
 
 	i = 0;
-	ret = read(fd, buf, 20);
-	buf[20] = '\0';
-	while (i != 20)
+	while (i != 21)
 	{
-		if (!((buf[i] == '.') || (buf[i] == '#')) && ((i + 1) % 5 != 0))
+		if (!((**buf == '.') || (**buf == '#')) && ((i + 1) % 5 != 0) && (i != 20))
 			return (0);
-		if ((buf[i] != '\n') && ((i + 1) % 5 == 0) && (i != 0))
+		else if ((**buf == '\n') && (i == 19) && (ret == 20) && i++)
+		{
+			continue;
+		}
+		else if ((**buf != '\n') && (((i + 1) % 5 == 0) || i == 20) && (i != 0))
 			return (0);
+		*buf = *buf + 1;
 		i++;
 	}
+	if (ret == 21)
+		*buf = *buf - 21;
+	else if (ret == 20)
+		*buf = *buf - 20;
 	return (1);
 }
 
 int main()
 {
-    int fd;
 
-    fd = open("valid_figures", O_RDONLY);
-	validation(fd);
-}
+    int		fd;
+	int		ret;
+	char	*buf;
+
+	buf = malloc(sizeof(char) * 21);
+	fd = open("valid_figures", O_RDONLY);
+	while ((ret = read(fd, buf, 21)))
+	{
+		buf[ret] = '\0';
+		if (validation(fd, &buf, ret) == 0)
+			return (0);
+		printf("%s", buf);
+		ft_strclr(buf);
+		}
+	}

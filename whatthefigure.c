@@ -14,11 +14,6 @@
 #include <fcntl.h>
 #include "libft.h"
 
-// int whatthefigure(char **buf)
-// {
-// 	printf("%d\n", ft_strnchr(*buf, ));
-// }
-
 int validation(int fd, char **buf, int ret)
 {
 	int i;
@@ -51,15 +46,16 @@ int main()
 	int		ret;
 	char	*buf;
 
-	buf = malloc(sizeof(char) * 21);
+	buf = ft_memalloc(sizeof(char) * 22);
 	fd = open("valid_figures", O_RDONLY);
 	while ((ret = read(fd, buf, 21)))
 	{
-		buf[ret] = '\0';
 		if (validation(fd, &buf, ret) == 0)
+		{
+			free(buf);
 			return (0);
+		}
 		printf("%s", buf);
-		// whatthefigure(&buf);
 	}
 	free(buf);
 }

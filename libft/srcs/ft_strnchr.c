@@ -18,12 +18,10 @@ int	ft_strnchr(const char *str, int ch)
 
 	i = 0;
 	while (str[i] != '\0')
-		i++;
-	while (i != -1)
 	{
 		if (str[i] == ch)
 			return (i);
-		i--;
+		i++;
 	}
-	return (-1);
+	return (0);
 }

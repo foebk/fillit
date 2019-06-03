@@ -21,4 +21,13 @@
 int	wtfmain(int fd, int *figures);
 int whatthefigure(char **buf);
 
+typedef struct		a_list
+{
+	int				id;
+	int				coords[3];
+	struct a_list	*next;
+}					cordsystem;
+
+cordsystem	*figure_coords();
+
 #endif

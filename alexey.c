@@ -14,20 +14,22 @@
 
 int	main(int argc, char **argv)
 {
-	int fd;
-	int i;
-	int figures[27];
+	int			fd;
+	int			i;
+	int			figures[27];
+	cordsystem	*head;
 
+	if (argc != 2)
+		return (0);
 	i = 0;
 	fd = open(argv[1], O_RDONLY);
+	ft_bzeroint(figures, 27);
 	if ((((wtfmain(fd, figures)) == 0) || (argc != 2)))
 	{
 		ft_putendl("Error");
 		return (0);
 	}
-	while (i != 27)
-	{
-		i++;
-	}
+	if ((head = figure_coords()) == 0)
+		return (0);
 	return (0);
 }

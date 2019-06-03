@@ -92,5 +92,6 @@ int					ft_strnchr(const char *str, int ch);
 char				*ft_strbs(char *str, char ch);
 char				*ft_strfs(char *str, char ch);
 void				ft_pushfront(t_list *lst, t_list **head);
+void				ft_bzeroint(int *dest, size_t n);
 
 #endif

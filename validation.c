@@ -75,7 +75,7 @@ int			wtfmain(int fd, int *figures)
 	char	*bufhead;
 
 	i = 0;
-	buf = ft_memalloc(sizeof(char) * 22);
+	buf = ft_memalloc(sizeof(char) * 22); // нужен протект
 	bufhead = buf;
 	while (((ret = read(fd, buf, 21)) == 21))
 	{

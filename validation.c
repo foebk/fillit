@@ -41,7 +41,7 @@ static int	symbol_checker(char **buf, int ret)
 	return (1);
 }
 
-static int	validation(int fd, char **buf, int ret)
+static int	validation(char **buf, int ret)
 {
 	int i;
 
@@ -75,21 +75,21 @@ int			wtfmain(int fd, int *figures)
 	char	*bufhead;
 
 	i = 0;
-	buf = ft_memalloc(sizeof(char) * 22); // нужен протект
+	if ((buf = ft_memalloc(sizeof(char) * 22)) == 0)
+		return (0);
 	bufhead = buf;
 	while (((ret = read(fd, buf, 21)) == 21))
 	{
-		if (validation(fd, &buf, ret) == 0)
+		if (validation(&buf, ret) == 0)
 		{
 			ft_strdel(&bufhead);
 			return (0);
 		}
 		if (whatthefigure(&buf) == 0)
 			return (0);
-		figures[i] = whatthefigure(&buf);
-		i++;
+		figures[i++] = whatthefigure(&buf);
 	}
-	if (((validation(fd, &buf, ret) == 0)) || ft_strlen(buf) == 0)
+	if (((validation(&buf, ret) == 0)) || ft_strlen(buf) == 0)
 		return (0);
 	figures[i] = whatthefigure(&buf);
 	free(buf);

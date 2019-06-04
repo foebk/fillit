@@ -1,34 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   alexey.c                                           :+:      :+:    :+:   */
+/*   ft_sqrt.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ction <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/29 19:30:45 by ction             #+#    #+#             */
-/*   Updated: 2019/05/29 19:30:46 by ction            ###   ########.fr       */
+/*   Created: 2019/06/03 19:18:39 by ction             #+#    #+#             */
+/*   Updated: 2019/06/03 19:18:40 by ction            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fillit.h"
+#include "libft.h"
 
-int	main(int argc, char **argv)
+int	ft_sqrt(int a, int b)
 {
-	int			fd;
-	int			i;
-	int			figures[27];
-	t_coord		*head;
+	int	i;
 
-	if (argc != 2)
-		return (0);
 	i = 0;
-	fd = open(argv[1], O_RDONLY);
-	ft_bzeroint(figures, 27);
-	if ((wtfmain(fd, figures)) == 0)
-		return (0);
-	while (figures[++i] != 0);
-	printf("%d\n", ft_sqrt(i * 4, 1));
-	if ((head = figure_coords()) == 0)
-		return (0);
+	while ((i != 46341) && (i * i < a))
+	{
+		if (i * i == a)
+			return (i);
+		i++;
+	}
+	if (b == 1)
+		return (i);
 	return (0);
 }

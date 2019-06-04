@@ -18,16 +18,16 @@
 # include <fcntl.h>
 # include "libft.h"
 
-int	wtfmain(int fd, int *figures);
-int whatthefigure(char **buf);
+int					wtfmain(int fd, int *figures);
+int					whatthefigure(char **buf);
 
-typedef struct		a_list
+typedef struct		s_listt
 {
 	int				id;
 	int				coords[3];
-	struct a_list	*next;
-}					cordsystem;
+	struct s_listt	*next;
+}					t_coord;
 
-cordsystem	*figure_coords();
+t_coord				*figure_coords();
 
 #endif

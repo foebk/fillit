@@ -12,7 +12,7 @@
 
 #include "fillit.h"
 
-int		*ffig(t_coord *head, int figure)
+int		*findfigure(t_coord *head, int figure)
 {
 	t_coord *tmp;
 
@@ -30,7 +30,8 @@ char	*makefield(int s)
 	char	*dest;
 
 	i = -1;
-	dest = ft_memalloc(sizeof(char *) * (s * s + s + 1));
+	if ((dest = ft_memalloc(sizeof(char *) * (s * s + s + 1))) == 0)
+		return (0);
 	while (++i != s * s + s)
 	{
 		dest[i] = '.';
@@ -40,18 +41,14 @@ char	*makefield(int s)
 	return (dest);
 }
 
-int putfigure(char **field, int fg, t_coord *head, int begin, char c)
+int putfigure(char **fld, int fg, int bg, char c) /* field - поле,fg - id фигуры, head - шейпы, begin начало) | не забыть зафришить head */
 {
 	int i;
+	static t_coord	*head = NULL;
 
-	if ((*field)[begin] != '.')
-		return (0);
-	while (i != 3)
-		if ((*field)[begin + ffig(figurecoords(), fg)[i]] != '.')
-			return (0);
-		(*field)[begin + ffig(figurecoords(), fg)[0]] = c;
-	begin += ffig(figurecoords(), fg)[0];
-
+	if (head = NULL)
+		head = figure_coords();
+	printf("%d\n", head->id);
 }
 
 int	main(int argc, char **argv)
@@ -59,19 +56,16 @@ int	main(int argc, char **argv)
 	int			fd;
 	int			i;
 	int			figures[27];
-	t_coord		*head;
 	char		*field;
 
-	if (argc != 2)
+	i = 0;
+	fd = open(argv[1], O_RDONLY);
+	ft_bzeroint(figures, 27);
+	if ((argc != 2) || (fd < 3) || ((wtfmain(fd, figures)) == 0))
 		return (0);
-	printf("%d\n", (findfigure(figure_coords(), 1))[0]);
-	// fd = open(argv[1], O_RDONLY);
-	// ft_bzeroint(figures, 27);
-	// if ((wtfmain(fd, figures)) == 0)
-	// 	return (0);
-	// while (figures[++i] != 0);
-	// field = makefield(ft_sqrt(4 * i, 1));
-	// if ((head = figure_coords()) == 0)
-	// 	return (0);
+	while (figures[++i] != 0);
+	if ((field = makefield(ft_sqrt(4 * i, 1))) == 0)
+		return (0);
+	free(field);
 	return (0);
 }

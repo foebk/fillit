@@ -41,14 +41,42 @@ char	*makefield(int s)
 	return (dest);
 }
 
-int putfigure(char **fld, int fg, int bg, char c) /* field - поле,fg - id фигуры, head - шейпы, begin начало) | не забыть зафришить head */
+int putfigure(char **fld, int fg, int bg, char c) /* field - поле,fg - id фигуры, begin - начало, c - буква фигуры) | не забыть зафришить head */
 {
 	int i;
+	int *sh;
 	static t_coord	*head = NULL;
 
-	if (head = NULL)
+	i = 0;
+	if (head == NULL)
 		head = figure_coords();
-	printf("%d\n", head->id);
+	if ((*fld)[bg] != '.')
+		return (0);
+	(*fld)[bg] = c;
+	sh = findfigure(head, fg);
+	while (i != 3)
+	{
+		if (sh[i] > 9)
+		{
+			sh[i] = sh[i] / 10 + 1;
+			if ((*fld)[bg + (sh[i])] != '.')
+			{
+				return (0);
+			}
+			(*fld)[bg + sh[i]] = c;
+		}
+		else
+		{
+			if ((*fld)[bg + (sh[i])] != '.')
+			{
+				return (0);
+			}
+			(*fld)[bg + sh[i]] = c;
+		}
+		bg += sh[i];
+		i++;
+		printf("%s\n", *fld);
+	}
 }
 
 int	main(int argc, char **argv)
@@ -66,6 +94,7 @@ int	main(int argc, char **argv)
 	while (figures[++i] != 0);
 	if ((field = makefield(ft_sqrt(4 * i, 1))) == 0)
 		return (0);
-	free(field);
+	putfigure(&field, 2, 1, 'A');
+	// free(field);
 	return (0);
 }

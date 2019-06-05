@@ -72,26 +72,27 @@ int			wtfmain(int fd, int *figures)
 	int		i;
 	int		ret;
 	char	*buf;
-	char	**bufhead;
+	char	*bufhead;
 
 	i = 0;
 	if ((buf = ft_memalloc(sizeof(char) * 22)) == 0)
 		return (0);
-	bufhead = &buf;
+	bufhead = buf;
 	while (((ret = read(fd, buf, 21)) == 21))
 	{
-		if (validation(&buf, ret) == 0)
+		if ((validation(&buf, ret) == 0) || (whatthefigure(&buf) == 0))
 		{
-			ft_strdel(bufhead);
+			ft_strdel(&bufhead);
 			return (0);
 		}
-		if (whatthefigure(&buf) == 0)
-			return (0);
 		figures[i++] = whatthefigure(&buf);
 	}
 	if (((validation(&buf, ret) == 0)) || ft_strlen(buf) == 0)
+	{
+		ft_strdel(&bufhead);
 		return (0);
+	}
 	figures[i] = whatthefigure(&buf);
-	ft_strdel(bufhead);
+	ft_strdel(&bufhead);
 	return (ret != 20) ? 0 : 1;
 }

@@ -61,13 +61,14 @@ int putfigure(char **fld, int fg, int bg, t_coord *head) /* field - поле,fg 
 	int			i;
 	int			*sh;
 	char		fldcopy[ft_strlen(*fld)];
-	static int	s = 0;
+	int			s;
 	static char	c = 'A';
 
+	if ((bg == -1) && (c = 'A'))
+		bg = 0;
 	ft_strcpy(fldcopy, *fld);
 	i = -2;
-	if (s == 0)
-		s = ft_sqrt(ft_strcount(*fld, '.'), 0);
+	s = ft_sqrt(ft_strlen(*fld) - ft_strcount(*fld, '\n'), 0);
 	sh = findfigure(head, fg);
 	while (++i != 3)
 	{
@@ -98,13 +99,14 @@ int	main(int argc, char **argv)
 		return (0);
 	while (figures[i] != 0)
 		i++;
-	if ((field = makefield(ft_sqrt(4 * i, 1))) == 0)
+	if (((i == 0 || (field = makefield(ft_sqrt(4 * i, 1))) == 0)))
 		return (0);
 	head = figure_coords();
 	putfigure(&field, 1, 0, head);
 	putfigure(&field, 19, 2, head);
 	putfigure(&field, 19, 1, head);
 	putfigure(&field, 19, 14, head);
+	putfigure(&field, 17, 4, head);
 	printf("%s\n", field);
 	free(field);
 	return (0);

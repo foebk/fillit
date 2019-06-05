@@ -12,6 +12,21 @@
 
 #include "fillit.h"
 
+int		vector(int *sh, int bg, int i, int s)
+{
+	if (sh[i] == 1)
+		bg += 1;
+	else if (sh[i] == 2)
+		bg += s - 1;
+	else if (sh[i] == 3)
+		bg += s;
+	else if (sh[i] == 4)
+		bg += s + 1;
+	else
+		return (0);
+	return (bg);
+}
+
 int		*findfigure(t_coord *head, int figure)
 {
 	t_coord *tmp;
@@ -45,9 +60,11 @@ int putfigure(char **fld, int fg, int bg, char c) /* field - поле,fg - id ф
 {
 	int i;
 	int *sh;
+	int s;
 	static t_coord	*head = NULL;
 
 	i = 0;
+	s = ft_sqrt(ft_strcount(*fld, '.'), 0);
 	if (head == NULL)
 		head = figure_coords();
 	if ((*fld)[bg] != '.')
@@ -56,26 +73,11 @@ int putfigure(char **fld, int fg, int bg, char c) /* field - поле,fg - id ф
 	sh = findfigure(head, fg);
 	while (i != 3)
 	{
-		if (sh[i] > 9)
-		{
-			sh[i] = sh[i] / 10 + 1;
-			if ((*fld)[bg + (sh[i])] != '.')
-			{
-				return (0);
-			}
-			(*fld)[bg + sh[i]] = c;
-		}
-		else
-		{
-			if ((*fld)[bg + (sh[i])] != '.')
-			{
-				return (0);
-			}
-			(*fld)[bg + sh[i]] = c;
-		}
-		bg += sh[i];
+		bg = vector(sh, bg, i, s);
+		if ((*fld)[bg] != '.')
+			return (0);
+		(*fld)[bg] = c;
 		i++;
-		printf("%s\n", *fld);
 	}
 }
 
@@ -94,7 +96,9 @@ int	main(int argc, char **argv)
 	while (figures[++i] != 0);
 	if ((field = makefield(ft_sqrt(4 * i, 1))) == 0)
 		return (0);
-	putfigure(&field, 2, 1, 'A');
+	printf("%s\n", field);
+	putfigure(&field, 1, 0, 'X');
+	printf("%s\n", field);
 	// free(field);
 	return (0);
 }

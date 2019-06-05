@@ -1,29 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_sqrt.c                                          :+:      :+:    :+:   */
+/*   ft_strcount.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ction <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/06/03 19:18:39 by ction             #+#    #+#             */
-/*   Updated: 2019/06/03 19:18:40 by ction            ###   ########.fr       */
+/*   Created: 2019/06/05 17:45:40 by ction             #+#    #+#             */
+/*   Updated: 2019/06/05 17:46:49 by ction            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
+#include "libft.h"
 
-int	ft_sqrt(int a, int b)
+int	ft_strcount(char *src, char c)
 {
-	int	i;
+	int i;
+	int count;
 
 	i = 0;
-	while ((i != 46341) && (i * i <= a))
+	count = 0;
+	if (src == NULL)
+		return (0);
+	while (src[i] != '\0')
 	{
-		if (i * i == a)
-			return (i);
+		if (src[i] == c)
+			count++;
 		i++;
 	}
-	if (b == 1)
-		return (i);
-	return (0);
+	return (count);
 }

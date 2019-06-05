@@ -14,6 +14,8 @@
 
 int		vector(int *sh, int bg, int i, int s)
 {
+	if (i == -1)
+		return (bg);
 	if (sh[i] == 1)
 		bg += 1;
 	else if (sh[i] == 2)
@@ -22,9 +24,7 @@ int		vector(int *sh, int bg, int i, int s)
 		bg += s;
 	else if (sh[i] == 4)
 		bg += s + 1;
-	else
-		return (0);
-	return (bg);
+	return (bg); 
 }
 
 int		*findfigure(t_coord *head, int figure)
@@ -56,29 +56,30 @@ char	*makefield(int s)
 	return (dest);
 }
 
-int putfigure(char **fld, int fg, int bg, char c) /* field - поле,fg - id фигуры, begin - начало, c - буква фигуры) | не забыть зафришить head */
+int putfigure(char **fld, int fg, int bg, t_coord *head) /* field - поле,fg - id фигуры, begin - начало, head - шейпы) */
 {
-	int i;
-	int *sh;
-	int s;
-	static t_coord	*head = NULL;
+	int			i;
+	int			*sh;
+	char		fldcopy[21];
+	static int	s = 0;
+	static char	c = 'A' - 1;
 
-	i = 0;
-	s = ft_sqrt(ft_strcount(*fld, '.'), 0);
-	if (head == NULL)
-		head = figure_coords();
-	if ((*fld)[bg] != '.')
-		return (0);
-	(*fld)[bg] = c;
+	ft_strcpy(fldcopy, *fld);
+	i = -2;
+	if (c++ && (s == 0))
+		s = ft_sqrt(ft_strcount(*fld, '.'), 0);
 	sh = findfigure(head, fg);
-	while (i != 3)
+	while (++i != 3)
 	{
 		bg = vector(sh, bg, i, s);
 		if ((*fld)[bg] != '.')
+		{
+			*fld = ft_strcpy(*fld, fldcopy);
 			return (0);
+		}
 		(*fld)[bg] = c;
-		i++;
 	}
+	return (1);
 }
 
 int	main(int argc, char **argv)
@@ -87,18 +88,23 @@ int	main(int argc, char **argv)
 	int			i;
 	int			figures[27];
 	char		*field;
+	t_coord		*head;
 
 	i = 0;
 	fd = open(argv[1], O_RDONLY);
 	ft_bzeroint(figures, 27);
 	if ((argc != 2) || (fd < 3) || ((wtfmain(fd, figures)) == 0))
 		return (0);
-	while (figures[++i] != 0);
+	while (figures[i] != 0)
+		i++;
 	if ((field = makefield(ft_sqrt(4 * i, 1))) == 0)
 		return (0);
+	head = figure_coords();
+	putfigure(&field, 1, 0, head);
+	putfigure(&field, 19, 2, head);
+	putfigure(&field, 19, 12, head);
+	putfigure(&field, 19, 1, head);
 	printf("%s\n", field);
-	putfigure(&field, 1, 0, 'X');
-	printf("%s\n", field);
-	// free(field);
+	free(field);
 	return (0);
 }

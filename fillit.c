@@ -91,12 +91,12 @@ int		main(int argc, char **argv)
 	i = 0;
 	fd = open(argv[1], O_RDONLY);
 	ft_bzeroint(figures, 27);
-	if ((argc != 2) || (fd < 3) || ((wtfmain(fd, figures)) == 0))
-		return (ending(0, NULL, NULL));
+	if ((argc != 2) || (fd < 0) || ((wtfmain(fd, figures)) == 0))
+		return (ending(0, NULL, NULL, fd));
 	while (figures[i] != 0)
 		i++;
 	if (((i == 0 || i > 26 || (field = makefield(ft_sqrt(4 * i, 1))) == 0)))
-		return (ending(0, NULL, NULL));
+		return (ending(0, NULL, NULL, fd));
 	head = figure_coords();
 	while ((rec(&field, figures, head, 'A')) == 0)
 	{
@@ -105,5 +105,5 @@ int		main(int argc, char **argv)
 	}
 	ft_putstr(field);
 	free(field);
-	return (ending(1, head, NULL));
+	return (ending(1, head, NULL, fd));
 }

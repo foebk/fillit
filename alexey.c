@@ -38,21 +38,27 @@ int		rec(char **fld, int *fg, t_coord *head, char a)
 	res = 0;
 	if (*fg == 0)
 		return (1);
-	while (res != 1)
+	while (bg < (int)ft_strlen(*fld))
 	{
-		if ((unsigned int)bg >= ft_strlen(*fld) - ft_strcount(*fld, '\n'))
-			return (0);
-		res = putfigure(fld, *fg, bg, head);
+		while (putfigure(fld, *fg, bg, head) != 1)
+		{
+			bg++;
+			if (bg == (int)ft_strlen(*fld))
+				return (0);
+		}
 		*fld = findandreplace(*fld, '#', a);
-		bg++;
+		if (rec(fld, (fg + 1), head, (a + 1)) == 0)
+		{
+			*fld = findandreplace(*fld, a, '.');
+			bg++;
+			continue;
+		}
+		return (1);
 	}
-	a++;
-	if ((rec(fld, (fg + 1), head, a)) == 0)
-		return (0);
-	return (1);
+	return (0);
 }
 
-int		ending(int flag, t_coord *head, char *bufhead)
+int		ending(int flag, t_coord *head, char *bufhead, int fd)
 {
 	t_coord *tmp;
 	t_coord *tmp2;
@@ -71,6 +77,7 @@ int		ending(int flag, t_coord *head, char *bufhead)
 	if (bufhead != NULL)
 		ft_strdel(&bufhead);
 	if (flag == 0)
-		ft_putendl("Error");
+		ft_putendl("error");
+	close(fd);
 	return (0);
 }

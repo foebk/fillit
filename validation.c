@@ -84,7 +84,8 @@ int			wtfmain(int fd, int *figures)
 			return (ending(1, NULL, bufhead));
 		figures[i++] = whatthefigure(&buf);
 	}
-	if (((validation(&buf, ret) == 0)) || ft_strlen(buf) == 0)
+	if (((validation(&buf, ret) == 0)) || (ft_strlen(buf) == 0) ||
+		whatthefigure(&buf) == 0)
 		return (ending(1, NULL, bufhead));
 	figures[i] = whatthefigure(&buf);
 	ft_strdel(&bufhead);

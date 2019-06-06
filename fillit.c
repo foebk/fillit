@@ -24,7 +24,7 @@ int		vector(int *sh, int bg, int i, int s)
 		bg += s;
 	else if (sh[i] == 4)
 		bg += s + 1;
-	return (bg); 
+	return (bg);
 }
 
 int		*findfigure(t_coord *head, int figure)
@@ -56,16 +56,13 @@ char	*makefield(int s)
 	return (dest);
 }
 
-int putfigure(char **fld, int fg, int bg, t_coord *head) /* field - поле,fg - id фигуры, begin - начало, head - шейпы) */
+int		putfigure(char **fld, int fg, int bg, t_coord *head)
 {
 	int			i;
 	int			*sh;
 	char		fldcopy[ft_strlen(*fld)];
 	int			s;
-	static char	c = 'A';
 
-	if ((bg == -1) && (c = 'A'))
-		bg = 0;
 	ft_strcpy(fldcopy, *fld);
 	i = -2;
 	s = ft_sqrt(ft_strlen(*fld) - ft_strcount(*fld, '\n'), 0);
@@ -78,34 +75,12 @@ int putfigure(char **fld, int fg, int bg, t_coord *head) /* field - поле,fg 
 			*fld = ft_strcpy(*fld, fldcopy);
 			return (0);
 		}
-		(*fld)[bg] = c;
+		(*fld)[bg] = '#';
 	}
-	c++;
 	return (1);
 }
 
-int rec(char **fld, int *fg, t_coord *head)
-{
-	int	res;
-	int	bg;
-
-	bg = 0;
-	res = 0;
-	if (*fg == 0)
-		return (1);
-	while (res != 1)
-	{
-		if (bg >= ft_strlen(*fld) - ft_strcount(*fld, '\n'))
-			return (0);
-		res = putfigure(fld, *fg, bg, head);
-		bg++;
-	}
-	if ((rec(fld, (fg + 1), head)) == 0)
-		return (0);
-	return (1);
-}
-
-int	main(int argc, char **argv)
+int		main(int argc, char **argv)
 {
 	int			fd;
 	int			i;
@@ -117,18 +92,18 @@ int	main(int argc, char **argv)
 	fd = open(argv[1], O_RDONLY);
 	ft_bzeroint(figures, 27);
 	if ((argc != 2) || (fd < 3) || ((wtfmain(fd, figures)) == 0))
-		return (0);
+		return (ending(0, NULL, NULL));
 	while (figures[i] != 0)
 		i++;
-	if (((i == 0 || (field = makefield(ft_sqrt(4 * i, 1))) == 0)))
-		return (0);
+	if (((i == 0 || i > 26 || (field = makefield(ft_sqrt(4 * i, 1))) == 0)))
+		return (ending(0, NULL, NULL));
 	head = figure_coords();
-	while ((rec(&field, figures, head)) == 0)
+	while ((rec(&field, figures, head, 'A')) == 0)
 	{
-		i++;
-		field = makefield(ft_sqrt(4 * i, 1));
+		free(field);
+		field = makefield(ft_sqrt(4 * i++, 1));
 	}
 	ft_putstr(field);
 	free(field);
-	return (0);
+	return (ending(1, head, NULL));
 }

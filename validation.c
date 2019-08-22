@@ -81,12 +81,12 @@ int			wtfmain(int fd, int *figures)
 	while (((ret = read(fd, buf, 21)) == 21))
 	{
 		if ((validation(&buf, ret) == 0) || (whatthefigure(&buf) == 0))
-			return (ending(1, NULL, bufhead));
+			return (ending(1, NULL, bufhead, fd));
 		figures[i++] = whatthefigure(&buf);
 	}
 	if (((validation(&buf, ret) == 0)) || (ft_strlen(buf) == 0) ||
 		whatthefigure(&buf) == 0)
-		return (ending(1, NULL, bufhead));
+		return (ending(1, NULL, bufhead, fd));
 	figures[i] = whatthefigure(&buf);
 	ft_strdel(&bufhead);
 	return (ret != 20) ? 0 : 1;

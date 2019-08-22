@@ -32,6 +32,6 @@ t_coord				*figure_coords();
 char				*findandreplace(char *src, char a, char b);
 int					rec(char **fld, int *fg, t_coord *head, char a);
 int					putfigure(char **fld, int fg, int bg, t_coord *head);
-int					ending(int flag, t_coord *head, char *bufhead);
+int					ending(int flag, t_coord *head, char *bufhead, int fd);
 
 #endif
